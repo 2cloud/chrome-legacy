@@ -182,7 +182,15 @@ function onSocketMessage(evt) {
 }
 
 function onSocketError(error) {
-	alert("Error ("+error.code+"): "+error.message);
+	//alert("Error ("+error.code+"): "+error.message);
+	console.log("Error ("+error.code+"): "+error.message);
+	if(error.code == 401){
+    channel.socket = channel.channel.open();
+    channel.socket.onopen = onSocketOpen;
+    channel.socket.onmessage = onSocketMessage;
+    channel.socket.onerror = onSocketError;
+    channel.socket.onclose = onSocketDisconnect;
+	}
 }
 
 function onSocketDisconnect(){
