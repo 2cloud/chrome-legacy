@@ -9,6 +9,7 @@ config.callback = false;
 config.identifier = "Chrome";
 config.giveFocus = true;
 config.mute = true;
+config.enabled = true;
 
 var channel = new Object();
 channel.channel = false;
@@ -31,6 +32,8 @@ function setConfig(settings) {
     localStorage['config.giveFocus'] = settings.giveFocus;
   if(settings.mute)
     localStorage['config.mute'] = settings.mute;
+  if(settings.enabled)
+    localStorage['config.enabled'] = settings.enabled;
   getConfig();
 }
 
@@ -51,6 +54,7 @@ function getConfig() {
     config.mute = localStorage['config.mute'];
   if(localStorage['config.giveFocus'])
     config.giveFocus = localStorage['config.giveFocus'];
+  config.enabled = localStorage['config.enabled'];
 }
 
 function setCurrentWindow(window) {
@@ -177,6 +181,20 @@ function onSocketMessage(evt) {
   }
 }
 
+function onSocketError(error) {
+	alert("Error ("+error.code+"): "+error.message);
+}
+
+function onSocketDisconnect(){
+	if(config.enabled){
+		channel.socket = channel.channel.open();
+		channel.socket.onopen = onSocketOpen;
+		channel.socket.onmessage = onSocketMessage;
+		channel.socket.onerror = onSocketError;
+		channel.socket.onclose = onSocketDisconnect;
+	}
+}
+
 function getTokenResult(resp, xhr) {
   channel.token = resp;
   if(resp == "Error: Not logged in.") {
@@ -186,4 +204,6 @@ function getTokenResult(resp, xhr) {
   channel.socket = channel.channel.open();
   channel.socket.onopen = onSocketOpen;
   channel.socket.onmessage = onSocketMessage;
+  channel.socket.onerror = onSocketError;
+  channel.socket.onclose = onSocketDisconnect;
 }
