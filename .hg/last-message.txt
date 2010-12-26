@@ -1,0 +1,1 @@
+Made channel.js a little more friendly, and easier to update the host it pulls the xpc_blank from.

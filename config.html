@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>android2cloud Settings</title>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+      function bodyLoad() {
+        getConfig();
+        document.getElementById("a2c_config.host").value = config.host;
+        document.getElementById("a2c_config.key").value = config.key;
+        document.getElementById("a2c_config.secret").value = config.secret;
+        document.getElementById("a2c_config.callback").value = config.callback;
+        document.getElementById("a2c_config.identifier").value = config.identifier;
+        document.getElementById("a2c_config.giveFocus").checked = config.giveFocus == "true";
+        document.getElementById("a2c_config.mute").checked = config.mute == "true";
+      }
+      function save() {
+        var settings = new Object();
+        var host = document.getElementById("a2c_config.host").value;
+      	if(host.indexOf("://") == -1)
+      	  host = "http://" + host;
+      	if(host.charAt(host.length - 1) != "/")
+      	  host += "/";
+      	var callback = document.getElementById("a2c_config.callback").value;
+      	if(callback.charAt(0) == "/")
+      	  callback = callback.substring(1);
+        settings.host = host;
+        settings.key = document.getElementById("a2c_config.key").value;
+        settings.secret = document.getElementById("a2c_config.secret").value;
+        settings.callback = callback;
+        settings.identifier = document.getElementById("a2c_config.identifier").value.replace(/\//g, "").replace(/:/g, "");
+        settings.giveFocus = document.getElementById("a2c_config.giveFocus").checked;
+        settings.mute = document.getElementById("a2c_config.mute").checked;
+        var changedIdentifier = (settings.identifier != config.identifier);
+        var changedHost = (settings.host != config.host);
+        background.window.setConfig(settings);
+        if(changedHost) {
+          background.window.oauth.clearTokens();
+          background.window.oauth.authorize(background.window.getTokenRequest);
+        }else if(changedIdentifier) {
+          background.window.getTokenRequest();
+        }
+        window.close();
+      }
+    </script>
+  </head>
+  <body onLoad="window.setTimeout(bodyLoad(), 100);">
+    <h1>android2cloud Settings</h1>
+    <p>Here are your settings for android2cloud.</p>
+    
+    <p>Host: <input type="text" id="a2c_config.host" /></p>
+    <p>Key: <input type="text" id="a2c_config.key" /></p>
+    <p>Secret: <input type="text" id="a2c_config.secret" /></p>
+    <p>Callback: <input type="text" id="a2c_config.callback" /></p>
+    <p>Identifier: <input type="text" id="a2c_config.identifier" /></p>
+    <p>Give Focus to New Tabs: <input type="checkbox" id="a2c_config.giveFocus" /></p>
+    <p>Mute Alerts: <input type="checkbox" id="a2c_config.mute" /></p>
+    <p><button onClick="save();">Save</button></p>
+  </body>
+</html>
