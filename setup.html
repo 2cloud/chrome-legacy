@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <title>android2cloud</title>
+    <link  href="http://fonts.googleapis.com/css?family=Josefin+Sans:100,100italic,300,300italic,400,400italic,600,600italic,700,700italic" rel="stylesheet" type="text/css" >
+    <link  href="http://fonts.googleapis.com/css?family=Tinos:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+    <style type="text/css">
+      body {
+        font-family: 'Tinos', serif;
+      }
+      
+      #header {
+        width: 100%;
+        text-align: right;
+      }
+      
+      #menubar {
+        width: 15%;
+        float: left;
+      }
+      
+      #menubar li {
+        padding-top: 5px;
+      }
+      
+      #content {
+        width: 83%;
+        float: right;
+        border-left: 1px #000000 solid;
+      }
+      
+      #progress {
+      	padding: 5%;
+      	margin: 2% auto;
+        font-size: 28px;
+        text-align: center;
+        width: 30%;
+        background-color: #a4c639;
+        border: 2px #338800 solid;
+        font-family: 'Josefin Sans', serif;
+        font-weight: 600;
+      }
+      
+      #instructions {
+      	padding: 1%;
+      	font-size: 18px;
+      }
+      
+      #continue {
+      	text-align: right;
+      	width: 100%;
+      }
+      
+      #footer {
+      	text-align: center;
+      	width: 100%;
+      	clear: both;
+      	padding-top: 2%;
+      	font-size: 14px;
+      }
+      
+      .bullet {
+      	padding: 2px;
+      }
+      
+      .completed {
+      	color: #ffffff;
+      }
+      
+      .centered {
+        margin: 0px auto;
+        text-align: center;
+      }
+    </style>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript">
+      var defaultHost = "https://android2cloud.appspot.com/"
+      var content = new Array();
+      content[0] = "<p>Thanks for downloading android2cloud! My name is Paddy Foran. I'm the developer behind the service. I'm going to guide you through getting set up and ready to go.</p>";
+      content[1] = "<p>The first thing we need to do is figure out where your information is being stored. Enter the base URL (something like \"http://<i>your-server</i>.appspot.com/\") in the \"Host\" input below. This needs to match the one you entered (or will enter) for your Android device. <b>If you're unsure, just leave it as the default</b>. When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Host: <input id=\"host\" type=\"text\" value=\""+defaultHost+"\"><input type=\"submit\" value=\"Save\" onClick=\"setHost()\"></div>";
+      content[2] = "<p>Next, we need to give your extension a name. android2cloud has a fun feature that lets you choose which browser or device to send a link to, and this name will identify the device or browser for you. If this is your only installation of an android2cloud extension, you can leave it as \"Chrome\". Otherwise, you may want to change it to something like \"Laptop Chrome\", or even \"Cr-48\" (if you're lucky :)) When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Name: <input id=\"name\" type=\"text\" value=\"Chrome\"><input type=\"submit\" value=\"Save\" onClick=\"setName()\"></div>";
+      content[3] = "<p>Finally, we need to get permission from the server so that the extension can access your links. We use your Google account for login and identification purposes, so you'll be asked to log in with that. Don't worry&mdash;we don't get any access to your account or your password, and we'll ask you again before we get access to any of your information.</p><p>To start the process, <a href=\"#\" onClick=\"grantAuth();\">click here</a>.";
+      var curPage = 0;
+      function updateContent(page){
+        curPage = page;
+        if(curPage != 1 && curPage != 2)
+          document.getElementById("continue").style.display = "";
+        else
+          document.getElementById("continue").style.display = "none";
+        div = document.getElementById("instructionText");
+        div.innerHTML = content[page];
+        bullets = "";
+        for(i=0; i < content.length; i++){
+          //bullet = document.getElementById('bullet'+i);
+          //bullet.className = 'bullet completed';
+          bullets += "<span class=\"bullet"
+          if(i <= page){
+            bullets += " completed";
+          }
+          bullets += "\">&bull;</span>";
+        }
+        document.getElementById("bullets").innerHTML = bullets;
+        document.getElementById("progressCount").innerHTML = "Step "+(page + 1) + " of "+ content.length;
+        if(page == (content.length - 1)){
+          document.getElementById("continue").style.display = "none";
+        }
+        document.getElementById("setup-link").href = chrome.extension.getURL("setup.html");
+        document.getElementById("settings-link").href = chrome.extension.getURL("config.html");
+      }
+      
+      function setName() {
+        background.setConfig({'identifier':document.getElementById('name').value});
+        document.getElementById("continue").style.display = "";
+      }
+      
+      function setHost() {
+        hostText = document.getElementById('host').value;
+        if(hostText.indexOf("://") == -1)
+        	  hostText = "http://" + host;
+      	if(hostText.charAt(hostText.length - 1) != "/")
+        	  hostText += "/";
+    	  secureHostText = hostText;
+    	  background.setConfig({'host':hostText});
+        document.getElementById("continue").style.display = "";
+      }
+      
+      function grantAuth() {
+        reauth();
+      }
+    </script>
+  </head>
+  <body onLoad="updateContent(0);">
+    <div id="header">
+      Paddy Foran (foran.paddy@gmail.com/Chrome) | 
+      <a href="http://help.android2cloud.org">Get Help</a> | 
+      <a href="#">Sign Out</a>
+    </div>
+    
+    <div id="menubar">
+      <b>android2cloud</b>
+      <ul>
+        <li><a href="#" id="setup-link">Setup Guide</a></li>
+        <li><a href="#" id="settings-link">Settings</a></li>
+        <li><a href="http://code.google.com/p/android2cloud">Project Page</a></li>
+        <li><a href="http://groups.google.com/group/android2cloud">Mailing list</a></li>
+        <li><a href="http://www.android2cloud.org/beta">Beta information</a></li>
+        <li><a href="http://www.twitter.com/android2cloud">Twitter</a></li>
+        <li><a href="http://blog.android2cloud.org">Blog</a></li>
+        <li><a href="http://www.github.com/android2cloud">GitHub</a></li>
+        <li><a href="http://donations.android2cloud.org">Donations</a></li>
+        <li>Sponsors
+          <ul>
+            <li><a href="http://www.wonderproxy.com">WonderProxy</a></li>
+            <li><a href="http://www.sitespect.com">SiteSpect</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="content">
+      <div id="progress">
+        <div id="progressCount"></div>
+        <div id="bullets">
+        </div>
+      </div>
+      <div id="instructions">
+        <div id="instructionText">
+          
+        </div>
+        <p id="continue" style="display: none;"><a href="#" onClick="updateContent(curPage+1)">Continue >></a></p>
+      </div>
+    </div>
+    <div id="footer">android2cloud is Open Source software created by <a href="http://www.secondbit.org">Second Bit, LLC</a> and released under the MIT license.
+  </body>
+</html>

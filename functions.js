@@ -93,6 +93,22 @@ function notify(message) {
 
 function reauth() {
   background.oauth.clearTokens();
+  oauth_config = {
+        'request_url': background.config.secureHost + "_ah/OAuthGetRequestToken",
+        'authorize_url': background.config.secureHost + "_ah/OAuthAuthorizeToken",
+        'access_url': background.config.secureHost + "_ah/OAuthGetAccessToken",
+        //'consumer_key': "android2cloud-dev.appspot.com",
+        //'consumer_secret': "IWWF240PCETzf92EFJDD1qH1",
+        'consumer_key' : background.config.key,
+        'consumer_secret' : background.config.secret,
+        'scope': "",
+        //'app_name' : 'android2cloud dev server',
+        'callback_page' : background.config.host + background.config.callback,
+      };
+  background.chromeExOAuthConfig = oauth_config;
+  background.oauth = background.ChromeExOAuth.fromConfig(oauth_config);
+  console.log(background.oauth);
+  console.log(background.config);
   background.oauth.authorize(getTokenRequest);
 }
 

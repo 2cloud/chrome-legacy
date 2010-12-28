@@ -10,8 +10,7 @@
   "permissions": [
   	"tabs",
         "notifications",
-    "http://android2cloud-dev.appspot.com/",
-    "https://android2cloud-dev.appspot.com/"
+    "<all_urls>"
   ],
   "background_page": "background.html",
   "options_page": "config.html",
