@@ -93,6 +93,9 @@ function notify(message) {
 
 function reauth() {
   background.oauth.clearTokens();
+  chrome.tabs.getSelected(null, function(tab){
+    setupTab = tab.id;
+  });
   oauth_config = {
         'request_url': background.config.secureHost + "_ah/OAuthGetRequestToken",
         'authorize_url': background.config.secureHost + "_ah/OAuthAuthorizeToken",
@@ -109,7 +112,7 @@ function reauth() {
   background.oauth = background.ChromeExOAuth.fromConfig(oauth_config);
   console.log(background.oauth);
   console.log(background.config);
-  background.oauth.authorize(getTokenRequest);
+  background.oauth.authorize(background.getTokenRequest);
 }
 
 function playSound(sound) {
@@ -122,7 +125,7 @@ function sendLink(link) {
   //link.target = encodeURIComponent(link.target);
   if(!link.callback)
     link.callback = dummy
-  sendMessage(config.host + 'devlinks/addlink', link.callback, {'method' : 'POST', 'parameters' :{'link' : link.url, 'name' : config.identifier, 'recipient' : link.target, 'comment' : link.comment }});
+  sendMessage(config.host + 'addlink', link.callback, {'method' : 'POST', 'parameters' :{'link' : link.url, 'name' : config.identifier, 'recipient' : link.target, 'comment' : link.comment }});
 }
 
 function dummy(a, b){
@@ -142,7 +145,7 @@ function getTokenRequest() {
   while(!(localStorage['oauth.token'] && localStorage['oauth.secret'])) {
     window.setTimeout(dummy(null, null), 100);
   }
-  sendMessage(config.host + 'devlinks/getToken/' + config.identifier, getTokenResult, null);
+  sendMessage(config.host + 'getToken/' + config.identifier, background.getTokenResult, null);
 }
 
 function onSocketOpen() {
@@ -150,7 +153,7 @@ function onSocketOpen() {
   if(localStorage['links.last'] != undefined){
   	lastlink += localStorage['links.last'];
   }
-  window.setTimeout(function() {sendMessage(config.host + 'devlinks/connected/' + config.identifier+lastlink, function(resp, xhr) { channel.username = resp; }, {'method' : 'POST'})}, 100);
+  window.setTimeout(function() {sendMessage(config.host + 'connected/' + config.identifier+lastlink, function(resp, xhr) { channel.username = resp; }, {'method' : 'POST'})}, 100);
 }
 
 function linkOpener(link) {
@@ -224,6 +227,8 @@ function getTokenResult(resp, xhr) {
   if(resp == "Error: Not logged in.") {
     //getTokenRequest();
   }
+  console.log("test");
+  console.log(goog.appengine);
   channel.channel = new goog.appengine.Channel(channel.token);
   channel.socket = channel.channel.open();
   channel.socket.onopen = onSocketOpen;

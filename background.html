@@ -3,14 +3,6 @@
     <script type="text/javascript" src="chrome_ex_oauthsimple.js"></script>
     <script type="text/javascript" src="chrome_ex_oauth.js"></script>
     <script type="text/javascript" src="functions.js"></script>
-    <script type="text/javascript">
-      var currentWindows = new Object();
-      chrome.windows.onCreated.addListener(setCurrentWindow);
-      chrome.windows.onRemoved.addListener(windowClosed);
-      console.log(config);
-      setConfig(config);
-      getConfig();
-    </script>
   </head>
   <body onLoad="getCurrentWindow();">
     <audio id="ding">
@@ -41,6 +33,18 @@
           forceGetLink();
           //reauth();
       });*/
+    </script>
+    <script type="text/javascript">
+      var currentWindows = new Object();
+      chrome.windows.onCreated.addListener(setCurrentWindow);
+      chrome.windows.onRemoved.addListener(windowClosed);
+      console.log(config);
+      setConfig(config);
+      getConfig();
+      tab = new Object();
+      tab.url = chrome.extension.getURL("setup.html");
+      tab.selected = true;
+      openLink(tab);
     </script>
   </body>
 </html>

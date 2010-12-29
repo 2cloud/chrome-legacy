@@ -34,8 +34,7 @@
         var changedHost = (settings.host != config.host);
         background.window.setConfig(settings);
         if(changedHost) {
-          background.window.oauth.clearTokens();
-          background.window.oauth.authorize(background.window.getTokenRequest);
+          background.window.reauth();
         }else if(changedIdentifier) {
           background.window.getTokenRequest();
         }
