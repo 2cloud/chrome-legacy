@@ -23,9 +23,9 @@
         'callback_page' : config.host + config.callback,
       });
       
-      function authorize_callback(token, secret) {
-        getTokenRequest();
-      }
+      //function authorize_callback(token, secret) {
+      //  getTokenRequest();
+      //}
       //oauth.authorize(authorize_callback);
       
       // Open the last link, no matter what, when the icon is clicked
@@ -38,13 +38,17 @@
       var currentWindows = new Object();
       chrome.windows.onCreated.addListener(setCurrentWindow);
       chrome.windows.onRemoved.addListener(windowClosed);
-      console.log(config);
-      setConfig(config);
-      getConfig();
-      tab = new Object();
-      tab.url = chrome.extension.getURL("setup.html");
-      tab.selected = true;
-      openLink(tab);
+      if(localStorage['config.setupCompleted'] != "true"){
+        console.log(config);
+        setConfig(config);
+        getConfig();
+        tab = new Object();
+        tab.url = chrome.extension.getURL("setup.html");
+        tab.selected = true;
+        openLink(tab);
+      }else{
+        oauth.authorize(getTokenRequest);        
+      }
     </script>
   </body>
 </html>

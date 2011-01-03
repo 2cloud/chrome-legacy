@@ -204,11 +204,7 @@ function onSocketError(error) {
 	//alert("Error ("+error.code+"): "+error.message);
 	console.log("Error ("+error.code+"): "+error.message);
 	if(error.code == 401){
-    channel.socket = channel.channel.open();
-    channel.socket.onopen = onSocketOpen;
-    channel.socket.onmessage = onSocketMessage;
-    channel.socket.onerror = onSocketError;
-    channel.socket.onclose = onSocketDisconnect;
+    getTokenRequest();
 	}
 }
 
@@ -227,7 +223,6 @@ function getTokenResult(resp, xhr) {
   if(resp == "Error: Not logged in.") {
     //getTokenRequest();
   }
-  console.log("test");
   console.log(goog.appengine);
   channel.channel = new goog.appengine.Channel(channel.token);
   channel.socket = channel.channel.open();

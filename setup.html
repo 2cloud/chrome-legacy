@@ -73,12 +73,12 @@
     </style>
     <script type="text/javascript" src="functions.js"></script>
     <script type="text/javascript">
-      var defaultHost = "https://android2cloud-dev.appspot.com/"
+      var defaultHost = "https://android2cloud.appspot.com/"
       var content = new Array();
       content[0] = "<p>Thanks for downloading android2cloud! My name is Paddy Foran. I'm the developer behind the service. I'm going to guide you through getting set up and ready to go.</p>";
       content[1] = "<p>The first thing we need to do is figure out where your information is being stored. Enter the base URL (something like \"http://<i>your-server</i>.appspot.com/\") in the \"Host\" input below. This needs to match the one you entered (or will enter) for your Android device. <b>If you're unsure, just leave it as the default</b>. When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Host: <input id=\"host\" type=\"text\" value=\""+defaultHost+"\"><input type=\"submit\" value=\"Save\" onClick=\"setHost()\"></div>";
-      content[2] = "<p>Next, we need to give your extension a name. android2cloud has a fun feature that lets you choose which browser or device to send a link to, and this name will identify the device or browser for you. If this is your only installation of an android2cloud extension, you can leave it as \"Chrome\". Otherwise, you may want to change it to something like \"Laptop Chrome\", or even \"Cr-48\" (if you're lucky :)) When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Name: <input id=\"name\" type=\"text\" value=\"Chrome\"><input type=\"submit\" value=\"Save\" onClick=\"setName()\"></div>";
-      content[3] = "<p>Finally, we need to get permission from the server so that the extension can access your links. We use your Google account for login and identification purposes, so you'll be asked to log in with that. Don't worry&mdash;we don't get any access to your account or your password, and we'll ask you again before we get access to any of your information.</p><p>To start the process, <a href=\"#\" onClick=\"grantAuth();\">click here</a>.";
+      content[2] = "<p>Next, we need to give your extension a name. android2cloud has a fun feature that lets you choose which browser or device to send a link to, and this name will identify the device or browser for you. If this is your only installation of an android2cloud extension, you can leave it as \"Chrome\". Otherwise, you may want to change it to something like \"Laptop Chrome\", or even \"Cr-48\" (if you're lucky :)) When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Name: <input id=\"name\" type=\"text\" value=\"Chrome\"><input type=\"submit\" value=\"Save\" onClick=\"setName()\"><span style=\"display: none; color: red;\" id=\"nameSpaceError\">Error: Spaces cannot be included in the Device Name. Please use only numbers, letters, underscores (_) and hyphens (-).</span></div>";
+      content[3] = "<p>Finally, we need to get permission from the server so that the extension can access your links. We use your Google account for login and identification purposes, so you'll be asked to log in with that. Don't worry&mdash;we don't get any access to your account or your password, and we'll ask you again before we get access to any of your information.</p><p>To start the process, <a href=\"#\" onClick=\"grantAuth();\">click here</a>. When it's done, you'll need to return here to finish setup.</p>";
       content[4] = "<p>Awesome! We're all set up. Use the links to the left to find out more about the project, or scan the QR code below with your phone to download the Android app if you haven't yet.</p><p class=\"centered\"><img src=\"http://chart.apis.google.com/chart?cht=qr&chs=350x350&chl=market%3A%2F%2Fsearch%3Fq%3Dpname%3Acom.suchagit.android2cloud\"/></p>";
       var curPage = 0;
       function updateContent(page){
@@ -103,6 +103,7 @@
         document.getElementById("progressCount").innerHTML = "Step "+(page + 1) + " of "+ content.length;
         if(page == (content.length - 1)){
           document.getElementById("continue").style.display = "none";
+          background.localStorage['config.setupCompleted'] = true;
         }
         document.getElementById("setup-link").href = chrome.extension.getURL("setup.html");
         document.getElementById("settings-link").href = chrome.extension.getURL("config.html");
@@ -110,8 +111,14 @@
       }
       
       function setName() {
-        background.setConfig({'identifier':document.getElementById('name').value});
-        document.getElementById("continue").style.display = "";
+        name = document.getElementById("name").value;
+        if(name.indexOf(" ") != -1){
+          document.getElementById("nameSpaceError").style.display = "";
+        }else{
+          document.getElementById("nameSpaceError").style.display = "none";
+          background.setConfig({'identifier':name});
+          document.getElementById("continue").style.display = "";
+        }
       }
       
       function setHost() {
@@ -141,13 +148,13 @@
       <ul>
         <li><a href="#" id="setup-link">Setup Guide</a></li>
         <li><a href="#" id="settings-link">Settings</a></li>
-        <li><a href="http://code.google.com/p/android2cloud">Project Page</a></li>
+        <li><a href="http://links.android2cloud.org/homepage">Project Page</a></li>
         <li><a href="http://groups.google.com/group/android2cloud">Mailing list</a></li>
-        <li><a href="http://www.android2cloud.org/beta">Beta information</a></li>
+        <li><a href="http://links.android2cloud.org/beta">Beta information</a></li>
         <li><a href="http://www.twitter.com/android2cloud">Twitter</a></li>
         <li><a href="http://blog.android2cloud.org">Blog</a></li>
         <li><a href="http://www.github.com/android2cloud">GitHub</a></li>
-        <li><a href="http://donations.android2cloud.org">Donations</a></li>
+        <li><a href="http://links.android2cloud.org/donate">Donations</a></li>
         <li>Sponsors
           <ul>
             <li><a href="http://www.wonderproxy.com">WonderProxy</a></li>
@@ -170,6 +177,6 @@
         <p id="continue" style="display: none;"><a href="#" onClick="updateContent(curPage+1)" id="continueLink">Continue >></a></p>
       </div>
     </div>
-    <div id="footer">android2cloud is Open Source software created by <a href="http://www.secondbit.org">Second Bit, LLC</a> and released under the MIT license.
+    <div id="footer">android2cloud is Open Source software created by <a href="http://www.secondbit.org">Second Bit, LLC</a> and released under the MIT license.</div>
   </body>
 </html>
