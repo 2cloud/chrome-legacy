@@ -1,8 +1,8 @@
 var background = chrome.extension.getBackgroundPage();
 
 var config = new Object();
-config.host = "http://android2cloud-dev.appspot.com/";
-config.secureHost = "https://android2cloud-dev.appspot.com/";
+config.host = "http://android2cloud.appspot.com/";
+config.secureHost = "https://android2cloud.appspot.com/";
 config.key = "dev.android2cloud.org";
 config.secret = "RnPKDZCnYy/ccr8STpe8ASL7";
 config.callback = false;
