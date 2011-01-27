@@ -1,6 +1,6 @@
 {
   "name": "android2cloud",
-  "version": "2.0",
+  "version": "2.0.3",
   "description": "A way to push content from your Android phone to your Chrome web browser.",
   "permissions": [
   	"tabs",

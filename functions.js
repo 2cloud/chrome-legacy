@@ -70,6 +70,9 @@ function getCurrentWindow() {
 }
 
 function openLink(tab) {
+  if(tab.url.indexOf("://") === -1){
+    tab.url = "http://"+tab.url;
+  }
   if(tab.windowId == "all"){
     for(currentWindow in currentWindows) {
       tab.windowId = currentWindows[currentWindow].id;
@@ -149,11 +152,8 @@ function getTokenRequest() {
 }
 
 function onSocketOpen() {
-  lastlink = "/";
-  if(localStorage['links.last'] != undefined){
-  	lastlink += localStorage['links.last'];
-  }
-  window.setTimeout(function() {sendMessage(config.host + 'connected/' + config.identifier+lastlink, function(resp, xhr) { channel.username = resp; }, {'method' : 'POST'})}, 100);
+  window.setTimeout(function() {sendMessage(config.host + 'connected/' + config.identifier, function(resp, xhr) { channel.username = resp; }, {'method' : 'POST'})}, 100);
+  localStorage['errorCount'] = 0;
 }
 
 function linkOpener(link) {
@@ -191,19 +191,18 @@ function onSocketMessage(evt) {
   	o.links[o.link.id].meta = o.meta;
   }
   if(o.links) {
-    if(o.meta && o.meta['links.latest'] != localStorage['links.last']){
-      for(link in o.links){
-        linkOpener(o.links[link].link);
-      }
-      localStorage['links.last'] = o.meta['links.latest'];
+    for(link in o.links){
+      linkOpener(o.links[link].link);
     }
   }
+	sendMessage(config.host + 'markread', function(resp, xhr) { console.log ("marked link as read")}, {'method' : 'POST', 'parameters' : {'links' : evt.data}});
 }
 
 function onSocketError(error) {
 	//alert("Error ("+error.code+"): "+error.message);
 	console.log("Error ("+error.code+"): "+error.message);
-	if(error.code == 401){
+	if(error.code == 401 && localStorage['errorCount'] < 10){
+	  localStorage['errorCount']++;
     getTokenRequest();
 	}
 }
