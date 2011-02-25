@@ -195,7 +195,7 @@ function onSocketMessage(evt) {
       linkOpener(o.links[link].link);
     }
   }
-	sendMessage(config.host + 'markread', function(resp, xhr) { console.log ("marked link as read")}, {'method' : 'POST', 'parameters' : {'links' : evt.data}});
+	sendMessage(config.host + 'markread', function(resp, xhr) { console.log ("marked link as read"); console.log("response: " + resp); }, {'method' : 'POST', 'parameters' : {'links' : evt.data}});
 }
 
 function onSocketError(error) {
