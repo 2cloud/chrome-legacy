@@ -73,17 +73,8 @@ function openLink(tab) {
   if(tab.url.indexOf("://") === -1){
     tab.url = "http://"+tab.url;
   }
-  if(tab.windowId == "all"){
-    for(currentWindow in currentWindows) {
-      tab.windowId = currentWindows[currentWindow].id;
-      chrome.tabs.create(tab, function(tab) { });
-    }
-  }else{
-    tab.windowId = parseInt(tab.windowId);
-    if(!currentWindows[tab.windowId])
-      delete tab.windowId;
-    chrome.tabs.create(tab, function(tab) { });
-  }
+  delete tab.windowId;
+  chrome.tabs.create(tab, function(tab) { });
 }
 
 function notify(message) {
@@ -190,12 +181,14 @@ function onSocketMessage(evt) {
   	o.links[o.link.id].link = o.link;
   	o.links[o.link.id].meta = o.meta;
   }
+  linksToSend = Array()
   if(o.links) {
     for(link in o.links){
       linkOpener(o.links[link].link);
+      linksToSend.push(link)
     }
   }
-	sendMessage(config.host + 'markread', function(resp, xhr) { console.log ("marked link as read"); console.log("response: " + resp); }, {'method' : 'POST', 'parameters' : {'links' : evt.data}});
+	sendMessage(config.host + 'marklinkread', function(resp, xhr) { console.log ("marked link as read"); console.log(evt.data); console.log("response: " + resp); }, {'method' : 'POST', 'parameters' : {'links' : JSON.stringify(linksToSend)}});
 }
 
 function onSocketError(error) {
