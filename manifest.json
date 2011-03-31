@@ -1,7 +1,7 @@
 {
-  "name": "android2cloud",
-  "version": "2.0.4",
-  "description": "A way to push content from your Android phone to your Chrome web browser.",
+  "name": "2cloud",
+  "version": "2.0.5.1",
+  "description": "The Chrome extension for the 2cloud Project. Send and receive links from any client supported by the project.",
   "permissions": [
   	"tabs",
         "notifications",
