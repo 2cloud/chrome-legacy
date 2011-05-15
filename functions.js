@@ -201,13 +201,13 @@ function onSocketError(error) {
 }
 
 function onSocketDisconnect(){
-	if(config.enabled){
+	/*if(config.enabled){
 		channel.socket = channel.channel.open();
 		channel.socket.onopen = onSocketOpen;
 		channel.socket.onmessage = onSocketMessage;
 		channel.socket.onerror = onSocketError;
 		channel.socket.onclose = onSocketDisconnect;
-	}
+	}*/
 }
 
 function getTokenResult(resp, xhr) {
