@@ -13,6 +13,7 @@
   },
   "background_page": "background.html",
   "options_page": "config.html",
+  "homepage_url": "http://links.2cloudproject.com/chrome",
   "icons": {
     "16": "images/icon.png",
     "48": "images/icon48.png",
