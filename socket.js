@@ -2,14 +2,14 @@ var sockets = {};
 var channel = {};
 
 sockets.getTokenRequest = function() {
-  var pastFrame = chrome.extension.getBackgroundPage().getElementById('wcs-iframe');
+  var pastFrame = chrome.extension.getBackgroundPage().document.getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
-  auth.request(config.host + 'gettoken/' + config.identifier, sockets.getTokenResult(), null);
+  auth.request(config.host + 'getToken/' + config.identifier, sockets.getTokenResult, null);
   //TODO: Check to make sure the quota isn't depleted before requesting a new token
 }
 
-sockets.getTokenResult(resp, xhr) {
+sockets.getTokenResult = function(resp, xhr) {
   channel = {};
   result = JSON.parse(resp);
   if(result.code === 200 || result.code === 304) {
@@ -63,12 +63,12 @@ sockets.onMessage = function(evt) {
   //TODO: Handle other messages
 }
 
-sockets.onError(error) {
+sockets.onError = function(error) {
   console.log("Error!");
   console.log(error);
   //TODO: Do more than just log the error
 }
 
-sockets.onDisconnect() {
+sockets.onDisconnect = function() {
   //TODO: handle socket disconnect
 }
