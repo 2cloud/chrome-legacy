@@ -1,16 +1,21 @@
 {
   "name": "2cloud",
   "version": "2.0.5.1",
+  "minimum_chrome_version": "5.0.316.0",
   "description": "The Chrome extension for the 2cloud Project. Send and receive links from any client supported by the project.",
   "permissions": [
-  	"tabs",
-        "notifications",
+    "tabs",
     "<all_urls>",
     "*://*/*"
   ],
+  "browser_action": {
+    "default_icon": "images/icon.png"
+  },
   "background_page": "background.html",
   "options_page": "config.html",
-  "icons": { "16": "icon.png",
-             "48": "icon48.png",
-            "128": "icon128.png" }
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
 }
