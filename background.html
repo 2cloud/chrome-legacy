@@ -2,49 +2,34 @@
   <head>
     <script type="text/javascript" src="chrome_ex_oauthsimple.js"></script>
     <script type="text/javascript" src="chrome_ex_oauth.js"></script>
-    <script type="text/javascript" src="functions.js"></script>
-  </head>
-  <body onLoad="getCurrentWindow();">
-    <script type="text/javascript" src='channel.js'></script>
+    <script type="text/javascript" src="config.js"></script>
     <script>
       var oauth = ChromeExOAuth.initBackgroundPage({
         'request_url': config.secureHost + "_ah/OAuthGetRequestToken",
         'authorize_url': config.secureHost + "_ah/OAuthAuthorizeToken",
         'access_url': config.secureHost + "_ah/OAuthGetAccessToken",
-        //'consumer_key': "android2cloud-dev.appspot.com",
-        //'consumer_secret': "IWWF240PCETzf92EFJDD1qH1",
         'consumer_key' : config.key,
         'consumer_secret' : config.secret,
         'scope': "",
-        //'app_name' : 'android2cloud dev server',
-        'callback_page' : config.host + config.callback,
+        'callback_page' : config.host + config.callback
       });
-      
-      //function authorize_callback(token, secret) {
-      //  getTokenRequest();
-      //}
-      //oauth.authorize(authorize_callback);
-      
-      // Open the last link, no matter what, when the icon is clicked
-      /*chrome.browserAction.onClicked.addListener(function(tab) {
-          forceGetLink();
-          //reauth();
-      });*/
+      var connection_status = "disconnected";
     </script>
+    <script type="text/javascript" src="auth.js"></script>
+    <script type="text/javascript" src="windows.js"></script>
+    <script type="text/javascript" src="socket.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript" src='channel.js'></script>
     <script type="text/javascript">
-      var currentWindows = new Object();
-      chrome.windows.onCreated.addListener(setCurrentWindow);
-      chrome.windows.onRemoved.addListener(windowClosed);
       if(localStorage['config.setupCompleted'] != "true"){
-        console.log(config);
-        setConfig(config);
-        getConfig();
+        config.save(config);
         tab = new Object();
         tab.url = chrome.extension.getURL("setup.html");
         tab.selected = true;
-        openLink(tab);
+        windows.openLink(tab);
       }else{
-        oauth.authorize(getTokenRequest);        
+        oauth.authorize(getTokenRequest);
       }
     </script>
   </body>

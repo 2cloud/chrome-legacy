@@ -71,7 +71,10 @@
         text-align: center;
       }
     </style>
-    <script type="text/javascript" src="functions.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="auth.js"></script>
+    <script type="text/javascript" src="windows.js"></script>
+    <script type="text/javascript" src="socket.js"></script>
     <script type="text/javascript">
       var defaultHost = "https://android2cloud.appspot.com/"
       var content = new Array();
@@ -103,7 +106,7 @@
         document.getElementById("progressCount").innerHTML = "Step "+(page + 1) + " of "+ content.length;
         if(page == (content.length - 1)){
           document.getElementById("continue").style.display = "none";
-          background.localStorage['config.setupCompleted'] = true;
+          chrome.extension.getBackgroundPage().localStorage['config.setupCompleted'] = true;
         }
         document.getElementById("setup-link").href = chrome.extension.getURL("setup.html");
         document.getElementById("settings-link").href = chrome.extension.getURL("config.html");
@@ -121,7 +124,9 @@
         }
         if(valid){
             document.getElementById("nameSpaceError").style.display = "none";
-            background.setConfig({'identifier':name});
+            config.save({'identifier':name});
+            config.load();
+            chrome.extension.getBackgroundPage().config.load();
             document.getElementById("continue").style.display = "";
         }
       }
@@ -133,13 +138,15 @@
       	if(hostText.charAt(hostText.length - 1) != "/")
         	  hostText += "/";
     	  secureHostText = hostText;
-    	  background.setConfig({'host':hostText});
+          config.save({'host':hostText, 'secureHost': hostText});
+          config.load();
+          chrome.extension.getBackgroundPage().config.load();
         document.getElementById("continue").style.display = "";
       }
       
       function grantAuth() {
         document.getElementById("continue").style.display = "";
-        reauth();
+        chrome.extension.getBackgroundPage().auth.initiate();
       }
     </script>
   </head>
