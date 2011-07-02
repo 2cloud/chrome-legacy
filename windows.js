@@ -1,6 +1,6 @@
 var windows = {};
 
-windows.openLink(link, config) {
+windows.openLink(link) {
   if(link.url.indexOf('://') === -1)
     link.url = 'http://' + link.url;
   if(config.giveFocus)

@@ -1,7 +1,7 @@
 var sockets = {};
 var channel = {};
 
-sockets.getTokenRequest = function(config, sendRequest) {
+sockets.getTokenRequest = function(sendRequest) {
   var pastFrame = chrome.extension.getBackgroundPage().getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
@@ -16,6 +16,10 @@ sockets.getTokenResult(resp, xhr) {
     //handle a successful retrieval of a token
     //200 means a token was created
     //304 means a token was already cached
+    if(config.debug) {
+      console.log("Channel token result:");
+      console.log(result);
+    }
     channel.token = result.token;
     channel.channel = new goog.appengine.Channel(channel.token);
     channel.socket = channel.channel.open();
@@ -32,7 +36,7 @@ sockets.onOpen = function() {
   //TODO: handle socket opening
 }
 
-sockets.onMessage = function(config, evt, openLink, sendRequest) {
+sockets.onMessage = function(evt, openLink, sendRequest) {
   var message = JSON.parse(evt.data);
   if(config.debug)
     console.log(message);
