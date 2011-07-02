@@ -1,11 +1,11 @@
 var sockets = {};
 var channel = {};
 
-sockets.getTokenRequest = function(sendRequest) {
+sockets.getTokenRequest = function() {
   var pastFrame = chrome.extension.getBackgroundPage().getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
-  sendRequest(config.host + 'gettoken/' + config.identifier, sockets.getTokenResult(), null);
+  auth.request(config.host + 'gettoken/' + config.identifier, sockets.getTokenResult(), null);
   //TODO: Check to make sure the quota isn't depleted before requesting a new token
 }
 
@@ -36,28 +36,28 @@ sockets.onOpen = function() {
   //TODO: handle socket opening
 }
 
-sockets.onMessage = function(evt, openLink, sendRequest) {
+sockets.onMessage = function(evt) {
   var message = JSON.parse(evt.data);
   if(config.debug)
     console.log(message);
   if(message.links) {
     linksToSend = Array();
     for(link in message.links) {
-      openLink(message.links[link].link);
+      windows.openLink(message.links[link].link);
       linksToSend.push(link);
     }
-    sendRequest(config.host + 'links/mark_read', function(resp, xhr) {
+    auth.request(config.host + 'links/mark_read', function(resp, xhr) {
       if(config.debug) {
         console.log("Marked link as read:");
         console.log(evt.data);
         console.log("Response: " + resp);
       }
-      }, {
-        'method': 'POST',
-        'parameters': {
-          'links': JSON.stringify(linksToSend)
-        }
+    }, {
+      'method': 'POST',
+      'parameters': {
+        'links': JSON.stringify(linksToSend)
       }
+    }
     );
   }
   //TODO: Handle other messages
