@@ -10,4 +10,22 @@ windows.openLink(link) {
   });
 }
 
+windows.serverDown() {
+  //TODO: Update UI to reflect the server being down
+}
 
+windows.disconnected() {
+  //TODO: update UI to reflect the channel being disconnected
+}
+
+windows.overQuota() {
+  //TODO: update the UI to reflect the server being over quota
+}
+
+windows.connecting() {
+  //TODO: update the UI to reflect the extension connecting to the server
+}
+
+windows.connected() {
+  //TODO: update the UI to reflect the extension being connected to the server
+}
