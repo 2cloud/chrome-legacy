@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>2cloud Server Error</title>
+  </head>
+  <body style="width: 200px;">
+    <p>We got an unexpected error from the server. You can find the error returned below:</p>
+    <blockquote id="server_error"></blockquote>
+    <p><a href="#">Click here to connect again.</a></p>
+    <script type="text/javascript">
+      errorblock = document.getElementById('server_error');
+      errorblock.innerHTML = chrome.extension.getBackgroundPage().window.channel.error;
+    </script>
+  </body>
+</html>

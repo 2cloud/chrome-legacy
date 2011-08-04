@@ -14,7 +14,7 @@ auth.initiate = function() {
   };
   background.chromeExOAuthConfig = oauth_config;
   background.oauth = background.ChromeExOAuth.fromConfig(oauth_config);
-  background.oauth.authorize(sockets.getTokenRequest);
+  background.oauth.authorize(background.sockets.getTokenRequest);
 }
 
 auth.request = function(path, callback, opts) {

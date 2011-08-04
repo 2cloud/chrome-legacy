@@ -14,8 +14,11 @@ browsers and clients.
 
 ### Installation Instructions
 
-Installation is pretty simple. Get the source code. Load unpacked extension. You're 
-off to the races. We'll have a more detailed guide soon.
+We tried to make installation as streamlined as possible. You just need to 
+download the source (use git, or the download button). Store the code some place 
+safe&mdash;you're going to need it. Open Chrome, and follow the excellent 
+[instructions](http://code.google.com/chrome/extensions/getstarted.html#load) 
+that Google has provided to get the extension set up as an "unpacked extension".
 
 ### Where to Get Help
 
@@ -36,7 +39,22 @@ If you don't use _any_ of those... you're kind of out of luck.
 
 ### Contribution Guidelines
 
-Tell me how I can help out. What features do we want? What are the standards?
+The quickest, easiest, and most assured way to contribute is to be a beta tester. 
+Simply join the [mailing list](http://groups.google.com/group/2cloud-beta) and 
+wait for a new beta to be released. Try and break it. Submit feedback. Wash, 
+rinse, repeat.
+
+If you're interested in contributing code, we use different guidelines for each 
+part of our app. This is driven by necessity; you can't use JSHint on Python.
+
+Right now, we don't have the Chrome extension codified to a set of standards. 
+We're looking to adopt JSHint for styling, and will be implementing some unit 
+tests shortly. Watch this space. In the meantime, if you want to help and are 
+okay with very few guidelines or structure, you can join up on the [dev mailing 
+list](http://groups.google.com/group/2cloud-dev) or look through some of the 
+[issues](https://www.github.com/2cloud/Chrome/issues) we want to fix. We'd love 
+a pull request, just try to explain clearly what you changed, why you changed it, 
+and why it's better this way.
 
 ### Contributors
 
@@ -53,4 +71,13 @@ They're pretty friendly. Please do get in touch!
 
 ### Credits and Alternatives
 
-Who inspired this? What Open Source stuff are you using? Who can I use when I realise your code sucks?
+One of the great parts about being an open source project is how often we get to 
+stand on the shoulders of giants. Without these people and projects, we couldn't 
+do what we do.
+
+* [Chromium](http://www.chromium.org) is a fantastic platform to develop for
+* [ChromeExOAuth](http://code.google.com/chrome/extensions/tut_oauth.html) powers our OAuth implementation
+
+There are some alternatives to 2cloud out there, and we encourage you to try them 
+out. Use what works best for you. You can find an up-to-date list on 
+[our website](http://links.2cloudproject.com/competition).

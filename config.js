@@ -1,11 +1,10 @@
 var config = {};
-config.host = "http://android2cloud.appspot.com/";
-config.secureHost = "https://android2cloud.appspot.com/";
-config.key = "dev.android2cloud.org";
-config.secret = "RnPKDZCnYy/ccr8STpe8ASL7";
+config.host = "http://2cloudapp.appspot.com/";
+config.secureHost = "https://2cloudapp.appspot.com/";
+config.key = "www.2cloudproject.com";
+config.secret = "kxB25XTmkIMA6lWfxgR3+Pk9";
 config.callback = "callback/";
 config.identifier = "Chrome";
-config.giveFocus = true;
 config.debug = false;
 
 config.save = function(settings) {
@@ -21,8 +20,6 @@ config.save = function(settings) {
     localStorage['config.callback'] = settings.callback;
   if(typeof settings.identifier != "undefined")
     localStorage['config.identifier'] = settings.identifier;
-  if(typeof settings.giveFocus != "undefined")
-    localStorage['config.giveFocus'] = settings.giveFocus;
   if(typeof settings.debug != "undefined")
     localStorage['config.debug'] = settings.debug;
   config.load();
@@ -43,8 +40,6 @@ config.load = function() {
   if(localStorage.getItem('config.callback') !== null)
     config.callback = localStorage['config.callback'];
   config.identifier = localStorage['config.identifier'];
-  if(localStorage.getItem('config.giveFocus') !== null)
-    config.giveFocus = localStorage['config.giveFocus'];
   if(localStorage.getItem('config.debug') !== null)
     config.debug = localStorage['config.debug'];
 }

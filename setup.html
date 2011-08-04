@@ -1,16 +1,20 @@
 <html>
   <head>
     <title>2cloud Setup</title>
-    <link  href="http://fonts.googleapis.com/css?family=Josefin+Sans:100,100italic,300,300italic,400,400italic,600,600italic,700,700italic" rel="stylesheet" type="text/css" >
-    <link  href="http://fonts.googleapis.com/css?family=Tinos:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin&v2' rel='stylesheet' type='text/css'>
     <style type="text/css">
       body {
-        font-family: 'Tinos', serif;
+        font-family: 'Lato', sans-serif;
+        background-color: #3C5A76;
+		background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, from(#7393AC), to(#3C5A76));
+		background: -moz-radial-gradient(50% 50%, farthest-side, #7393AC, #3C5A76);
       }
       
       #header {
         width: 100%;
         text-align: right;
+        link-decoration: none;
+        text-color: #FFFFFF;
       }
       
       #menubar {
@@ -23,26 +27,27 @@
       }
       
       #content {
-        width: 83%;
-        float: right;
-        border-left: 1px #000000 solid;
+        width: 50%;
+        margin: 0 auto;
       }
       
       #progress {
-      	padding: 5%;
-      	margin: 2% auto;
         font-size: 28px;
         text-align: center;
-        width: 30%;
-        background-color: #a4c639;
-        border: 2px #338800 solid;
-        font-family: 'Josefin Sans', serif;
+        width: 100%;
+        font-family: 'Lato', sans-serif;
         font-weight: 600;
+        position: fixed;
+		bottom: 0px;
+		margin-bottom: 36px;
       }
       
       #instructions {
       	padding: 1%;
       	font-size: 18px;
+      	color: #FFFFFF;
+      	text-shadow: 0px 2px 3px #555;
+      	font-size: 28px;
       }
       
       #continue {
@@ -56,10 +61,16 @@
       	clear: both;
       	padding-top: 2%;
       	font-size: 14px;
+      	position: fixed;
+		bottom: 0px;
+		color: #FFFFFF;
+		text-shadow: 0px 2px 3px #555;
       }
       
       .bullet {
       	padding: 2px;
+      	font-size: 46px;
+      	opacity: 0.5;
       }
       
       .completed {
@@ -70,19 +81,75 @@
         margin: 0px auto;
         text-align: center;
       }
+      
+      .continuebutton {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+		background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+		background-color:#ededed;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#444444;
+		font-family:arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:6px 24px;
+		text-decoration:none;
+		text-shadow:1px 1px 0px #ffffff;
+	}
+	
+	.continuebutton:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+		background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+		background-color:#dfdfdf;
+	}
+	
+	.continuebutton:active {
+		position:relative;
+		top:1px;
+	}
+	
+	.textarea {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+		background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+		background-color:#ededed;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#444444;
+		font-family:arial;
+		font-size:25px;
+		font-weight:bold;
+		text-decoration:none;
+		text-shadow:1px 1px 0px #ffffff;
+		width: 450px;
+		text-align: center;
+	}
     </style>
     <script type="text/javascript" src="config.js"></script>
-    <script type="text/javascript" src="auth.js"></script>
     <script type="text/javascript" src="windows.js"></script>
-    <script type="text/javascript" src="socket.js"></script>
+    <script type="text/javascript" src="auth.js"></script>
     <script type="text/javascript">
-      var defaultHost = "https://android2cloud.appspot.com/"
+      var defaultHost = "https://2cloudapp.appspot.com/"
       var content = new Array();
-      content[0] = "<p>Thanks for downloading the Chrome client for the 2cloud Project! My name is Paddy Foran. I'm the lead developer for the project. I'm going to guide you through getting set up and ready to go.</p>";
-      content[1] = "<p>The first thing we need to do is figure out where your information is being stored. Enter the base URL (something like \"http://<i>your-server</i>.appspot.com/\") in the \"Host\" input below. This needs to match the one you entered (or will enter) for your Android device. <b>If you're unsure, just leave it as the default</b>. When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Host: <input id=\"host\" type=\"text\" value=\""+defaultHost+"\"><input type=\"submit\" value=\"Save\" onClick=\"setHost()\"></div>";
-      content[2] = "<p>Next, we need to give your extension a name. The 2cloud Project has a fun feature that lets you choose which browser or device to send a link to, and this name will identify the device or browser for you. If this is your only installation of a 2cloud extension, you can leave it as \"Chrome\". Otherwise, you may want to change it to something like \"LaptopChrome\", or even \"Cr48\" (if you're lucky :)). The name should be a letter (a-z) in upper or lower case or a number-- no spaces or punctuation, please! When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Name: <input id=\"name\" type=\"text\" value=\"Chrome\"><input type=\"submit\" value=\"Save\" onClick=\"setName()\"><span style=\"display: none; color: red;\" id=\"nameSpaceError\">Error: Spaces cannot be included in the Device Name. Please use only numbers and letters.</span></div>";
-      content[3] = "<p>Finally, we need to get permission from the server so that the extension can access your links. We use your Google account for login and identification purposes, so you'll be asked to log in with that. Don't worry&mdash;we don't get any access to your account or your password, and we'll ask you again before we get access to any of your information.</p><p>To start the process, <a href=\"#\" onClick=\"grantAuth();\">click here</a>. When it's done, you'll need to return here to finish setup.</p>";
-      content[4] = "<p>Awesome! We're all set up. Use the links to the left to find out more about the project, or scan the QR code below with your phone to download the Android app if you haven't yet.</p><p class=\"centered\"><img src=\"http://chart.apis.google.com/chart?cht=qr&chs=350x350&chl=market%3A%2F%2Fsearch%3Fq%3Dpname%3Acom.suchagit.android2cloud\"/></p>";
+      content[0] = "<p>Thanks for downloading the Chrome client for 2cloud! You'll be ready to start opening links in a minute&mdash;we just need to get your account configured.</p>";
+      content[1] = "<p>The first thing you need to do is tell the extension where your information is being stored. Enter the base URL (something like \"http://<i>your-server</i>.appspot.com/\") in the field below. This needs to match the one you entered (or will enter) for your Android device. <b>If you're unsure, just leave it as the default</b>. When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\"><input id=\"host\" class=\"textarea\" type=\"text\" value=\""+defaultHost+"\"><br \><input type=\"submit\" class=\"continuebutton\" value=\"Save\" onClick=\"setHost()\"></div>";
+      content[2] = "<p>Next, you need to give your extension a name. 2cloud has a fun feature that lets you choose which browser or device to send a link to, and this name will identify the device or browser for you. If this is your only installation of a 2cloud extension, you can leave it as \"Chrome\". When you're done, <b>remember to hit Save</b>.</p><div class=\"form centered\">Device Name: <input id=\"name\" type=\"text\" value=\"Chrome\" class=\"textarea\"><input type=\"submit\" class=\"continuebutton\"value=\"Save\" onClick=\"setName()\"><span style=\"display: none; color: red;\" id=\"nameSpaceError\">Error: invalid device name. Please use only numbers and letters.</span></div>";
+      content[3] = "<p>Finally, you need to give the extension permission to get your links from the server. The server uses your Google account for login and identification purposes, so you'll be asked to log in with that. Don't worry&mdash;we don't get any access to your account, password, or information. All this does is prove you are you say you are. You have one last step after you log in, so come back to this window.</p><p><a class=\"continuebutton\" href=\"#\" onClick=\"grantAuth();\">Log in</a></p>";
+      content[4] = "<p>You're good to go. We recommend you <a href=\"http://www.twitter.com/2cloudproject\" title=\"Follow 2cloud on Twitter\">follow 2cloud on Twitter</a> or sign up for the <a href=\"http://groups.google.com/group/2cloud-announce\" title=\"2cloud Announcement mailing list on Google Groups\">mailing list</a> to be notified about downtime and changes.</p><p>If you don't have the Android app yet, you can scan the barcode below to download it. You'll need it to send links to the extension.</p><p class=\"centered\"><img src=\"http://chart.apis.google.com/chart?cht=qr&chs=350x350&chl=market%3A%2F%2Fsearch%3Fq%3Dpname%3Acom.suchagit.android2cloud\"/></p>";
       var curPage = 0;
       function updateContent(page){
         curPage = page;
@@ -94,8 +161,6 @@
         div.innerHTML = content[page];
         bullets = "";
         for(i=0; i < content.length; i++){
-          //bullet = document.getElementById('bullet'+i);
-          //bullet.className = 'bullet completed';
           bullets += "<span class=\"bullet"
           if(i <= page){
             bullets += " completed";
@@ -103,13 +168,10 @@
           bullets += "\">&bull;</span>";
         }
         document.getElementById("bullets").innerHTML = bullets;
-        document.getElementById("progressCount").innerHTML = "Step "+(page + 1) + " of "+ content.length;
         if(page == (content.length - 1)){
           document.getElementById("continue").style.display = "none";
-          chrome.extension.getBackgroundPage().localStorage['config.setupCompleted'] = true;
+          localStorage['config.setupCompleted'] = true;
         }
-        document.getElementById("setup-link").href = chrome.extension.getURL("setup.html");
-        document.getElementById("settings-link").href = chrome.extension.getURL("config.html");
         document.getElementById("continueLink").href = "#"+(curPage + 2);
       }
       
@@ -125,8 +187,6 @@
         if(valid){
             document.getElementById("nameSpaceError").style.display = "none";
             config.save({'identifier':name});
-            config.load();
-            chrome.extension.getBackgroundPage().config.load();
             document.getElementById("continue").style.display = "";
         }
       }
@@ -137,60 +197,28 @@
         	  hostText = "http://" + host;
       	if(hostText.charAt(hostText.length - 1) != "/")
         	  hostText += "/";
-    	  secureHostText = hostText;
-          config.save({'host':hostText, 'secureHost': hostText});
-          config.load();
-          chrome.extension.getBackgroundPage().config.load();
+    	  secureHostText = hostText.replace("http://", "https://");
+    	  config.save({'host':hostText, 'secureHost':secureHostText});
         document.getElementById("continue").style.display = "";
       }
       
       function grantAuth() {
         document.getElementById("continue").style.display = "";
-        chrome.extension.getBackgroundPage().auth.initiate();
+        auth.initiate();
       }
     </script>
   </head>
   <body onLoad="updateContent(0);">
     <div id="header">
-      <a href="http://help.2cloudproject.com">Get Help</a>
+      <a href="http://help.2cloudproject.com" id="helpLink" class="continuebutton">Help</a>
     </div>
-    
-    <div id="menubar">
-      <b>The 2cloud Project</b>
-      <ul>
-        <li><a href="#" id="setup-link">Setup Guide</a></li>
-        <li><a href="#" id="settings-link">Settings</a></li>
-        <li><a href="http://www.android2cloud.org">Project Home</a></li>
-        <li><a href="http://groups.google.com/group/2cloud">Mailing list</a></li>
-        <li><a href="http://groups.google.com/group/2cloud-announce">Announcement Email List</a></li>
-        <li><a href="http://links.2cloudproject.com/beta">Beta information</a></li>
-        <li><a href="http://www.twitter.com/2cloudproject">Twitter</a></li>
-        <li><a href="http://blog.android2cloud.org">Blog</a></li>
-        <li><a href="http://www.github.com/2cloud">GitHub</a></li>
-        <li><a href="http://links.android2cloud.org/donate">Donations</a></li>
-        <li>Sponsors
-          <ul>
-            <li><a href="http://www.wonderproxy.com">WonderProxy</a></li>
-            <li><a href="http://www.sitespect.com">SiteSpect</a></li>
-            <li><a href="http://www.eternityonline.org.uk">Eternity Online</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    
-    <div id="content">
-      <div id="progress">
-        <div id="progressCount"></div>
-        <div id="bullets">
-        </div>
-      </div>
+       <div id="content">
       <div id="instructions">
-        <div id="instructionText">
-          
-        </div>
-        <p id="continue" style="display: none;"><a href="#" onClick="updateContent(curPage+1)" id="continueLink">Continue >></a></p>
+        <div id="instructionText"></div>
+        <p id="continue" style="display: none;"><a href="#" onClick="updateContent(curPage+1)" id="continueLink" class="continuebutton">Continue</a></p>
       </div>
     </div>
+    <div id="progress"><div id="bullets"></div></div>
     <div id="footer">The 2cloud Project is Open Source software sponsored by <a href="http://www.secondbit.org">Second Bit, LLC</a> and released under the MIT license.</div>
   </body>
 </html>
