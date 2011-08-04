@@ -146,7 +146,7 @@ ChromeExOAuth.prototype.sendSignedRequest = function(url, callback,
                                                      opt_params) {
   var method = opt_params && opt_params['method'] || 'GET';
   var body = opt_params && opt_params['body'] || null;
-  var params = opt_params && opt_params['parameters'] || {};
+  var params = opt_params && opt_params != null && opt_params['parameters'] || {};
   var headers = opt_params && opt_params['headers'] || {};
 
   var signedUrl = this.signURL(url, method, params);
@@ -484,7 +484,6 @@ ChromeExOAuth.prototype.getRequestToken = function(callback, opt_args) {
   var result = OAuthSimple().sign({
     path : this.url_request_token,
     parameters: {
-      "xoauth_displayname" : this.app_name,
       "scope" : this.oauth_scope,
       "oauth_callback" : url_callback
     },

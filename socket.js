@@ -2,15 +2,18 @@ var sockets = {};
 var channel = {};
 
 sockets.getTokenRequest = function() {
+  windows.connecting();
   var pastFrame = chrome.extension.getBackgroundPage().document.getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
-  auth.request(config.host + 'getToken/' + config.identifier, sockets.getTokenResult, null);
+  auth.request(config.host + 'channels/get/' + config.identifier, sockets.getTokenResult, sockets.getTokenResult);
+  console.log("Sent token request");
   //TODO: Check to make sure the quota isn't depleted before requesting a new token
 }
 
 sockets.getTokenResult = function(resp, xhr) {
   channel = {};
+  console.log(resp);
   result = JSON.parse(resp);
   if(result.code === 200 || result.code === 304) {
     //handle a successful retrieval of a token
@@ -21,19 +24,27 @@ sockets.getTokenResult = function(resp, xhr) {
       console.log(result);
     }
     channel.token = result.token;
-    channel.channel = new goog.appengine.Channel(channel.token);
-    channel.socket = channel.channel.open();
-    channel.socket.onopen = sockets.onOpen;
-    channel.socket.onmessage = sockets.onMessage;
-    channel.socket.onerror = sockets.onError;
-    channel.socket.onclose = sockets.onDisconnect;
-  } else {
-    //TODO: handle non-successful responses
+    sockets.connect();
+  } else if(result.code === 503) {
+    windows.overQuota();
   }
 }
 
+sockets.connect = function() {
+  channel.channel = new goog.appengine.Channel(channel.token);
+  channel.socket = channel.channel.open();
+  channel.socket.onopen = sockets.onOpen;
+  channel.socket.onmessage = sockets.onMessage;
+  channel.socket.onerror = sockets.onError;
+  channel.socket.onclose = sockets.onDisconnect;
+}
+
 sockets.onOpen = function() {
-  //TODO: handle socket opening
+  windows.connected();
+  window.setTimeout(
+    function() {
+      auth.request(config.host + 'channels/connected/' + config.identifier, function(resp, xhr) { }, {'method' : 'POST'});
+    }, 100);
 }
 
 sockets.onMessage = function(evt) {
@@ -43,8 +54,8 @@ sockets.onMessage = function(evt) {
   if(message.links) {
     linksToSend = Array();
     for(link in message.links) {
-      windows.openLink(message.links[link].link);
-      linksToSend.push(link);
+      windows.openLink(message.links[link]);
+      linksToSend.push(message.links[link].id);
     }
     auth.request(config.host + 'links/mark_read', function(resp, xhr) {
       if(config.debug) {
@@ -64,11 +75,16 @@ sockets.onMessage = function(evt) {
 }
 
 sockets.onError = function(error) {
-  console.log("Error!");
-  console.log(error);
-  //TODO: Do more than just log the error
+  if(error.code != 401) {
+    channel.error = "Error " + error.code +": ";
+    channel.error += error.description;
+    windows.serverDown();
+    console.log(error);
+  } else {
+    sockets.getTokenRequest();
+  }
 }
 
 sockets.onDisconnect = function() {
-  //TODO: handle socket disconnect
+  windows.disconnected();
 }

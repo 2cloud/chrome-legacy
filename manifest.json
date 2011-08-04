@@ -1,6 +1,6 @@
 {
   "name": "2cloud",
-  "version": "2.0.5.1",
+  "version": "2.1",
   "minimum_chrome_version": "5.0.316.0",
   "description": "The Chrome extension for the 2cloud Project. Send and receive links from any client supported by the project.",
   "permissions": [
@@ -18,5 +18,9 @@
     "16": "images/icon.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": "images/disconnected.png",
+    "default_title": "Disconnected. Click to connect."
   }
 }

@@ -3,14 +3,21 @@
     <title>2cloud</title>
     <link  href="http://fonts.googleapis.com/css?family=Josefin+Sans:100,100italic,300,300italic,400,400italic,600,600italic,700,700italic" rel="stylesheet" type="text/css" >
     <link  href="http://fonts.googleapis.com/css?family=Tinos:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.8.13/jquery-ui.min.js"></script>
     <style type="text/css">
       body {
-        font-family: 'Tinos', serif;
+        font-family: 'Lato', sans-serif;
+        background-color: #3C5A76;
+		background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, from(#7393AC), to(#3C5A76));
+		background: -moz-radial-gradient(50% 50%, farthest-side, #7393AC, #3C5A76);
       }
       
       #header {
         width: 100%;
         text-align: right;
+        link-decoration: none;
+        text-color: #FFFFFF;
       }
       
       #menubar {
@@ -23,26 +30,28 @@
       }
       
       #content {
-        width: 83%;
-        float: right;
-        border-left: 1px #000000 solid;
+        width: 65%;
+        margin: 0 auto;
       }
       
       #progress {
-      	padding: 5%;
-      	margin: 2% auto;
         font-size: 28px;
         text-align: center;
-        width: 30%;
-        background-color: #a4c639;
-        border: 2px #338800 solid;
-        font-family: 'Josefin Sans', serif;
+        width: 100%;
+        font-family: 'Lato', sans-serif;
         font-weight: 600;
+        position: fixed;
+		bottom: 0px;
+		margin-bottom: 36px;
       }
       
       #instructions {
       	padding: 1%;
       	font-size: 18px;
+      	color: #FFFFFF;
+      	text-shadow: 0px 2px 3px #555;
+      	font-size: 28px;
+      	margin: 0 auto;
       }
       
       #continue {
@@ -56,10 +65,16 @@
       	clear: both;
       	padding-top: 2%;
       	font-size: 14px;
+      	position: fixed;
+		bottom: 0px;
+		color: #FFFFFF;
+		text-shadow: 0px 2px 3px #555;
       }
       
       .bullet {
       	padding: 2px;
+      	font-size: 46px;
+      	opacity: 0.5;
       }
       
       .completed {
@@ -70,20 +85,90 @@
         margin: 0px auto;
         text-align: center;
       }
-    </style>
-    <script type="text/javascript" src="functions.js"></script>
+      
+      .continuebutton {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+		background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+		background-color:#ededed;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#444444;
+		font-family:arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:6px 24px;
+		text-decoration:none;
+		text-shadow:1px 1px 0px #ffffff;
+	}
+	
+	.continuebutton:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+		background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+		background-color:#dfdfdf;
+	}
+	
+	.continuebutton:active {
+		position:relative;
+		top:1px;
+	}
+	
+	.textarea {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+		background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+		background-color:#ededed;
+		-moz-border-radius:6px;
+		-webkit-border-radius:6px;
+		border-radius:6px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#444444;
+		font-family:arial;
+		font-size:25px;
+		font-weight:bold;
+		text-decoration:none;
+		text-shadow:1px 1px 0px #ffffff;
+		width: 600px;
+		height: 56px;
+		margin-bottom: 10px;
+		margin-right: 10px;
+		padding-left: 5px;
+	}
+	
+	#title {
+		text-align: center;
+		font-size: 48px;
+		color: #ffffff;
+		text-shadow: 0px 2px 3px #555;	
+	}
+	
+	.checkbox {
+		margin-right: 5px;	
+	}
+	</style>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="socket.js"></script>
+    <script type="text/javascript" src="auth.js"></script>
+ 
     <script type="text/javascript">
       function bodyLoad() {
-        getConfig();
+        config.load();
         document.getElementById("a2c_config.host").value = config.host;
         document.getElementById("a2c_config.key").value = config.key;
         document.getElementById("a2c_config.secret").value = config.secret;
         document.getElementById("a2c_config.callback").value = config.callback;
         document.getElementById("a2c_config.identifier").value = config.identifier;
-        document.getElementById("a2c_config.giveFocus").checked = config.giveFocus == "true";
-        document.getElementById("a2c_config.mute").checked = config.mute == "true";
-        document.getElementById("setup-link").href = chrome.extension.getURL("setup.html");
-        document.getElementById("settings-link").href = chrome.extension.getURL("config.html");
       }
       function save() {
         var settings = new Object();
@@ -100,15 +185,13 @@
         settings.secret = document.getElementById("a2c_config.secret").value;
         settings.callback = callback;
         settings.identifier = document.getElementById("a2c_config.identifier").value.replace(/\//g, "").replace(/:/g, "");
-        settings.giveFocus = document.getElementById("a2c_config.giveFocus").checked;
-        settings.mute = document.getElementById("a2c_config.mute").checked;
         var changedIdentifier = (settings.identifier != config.identifier);
         var changedHost = (settings.host != config.host);
-        background.window.setConfig(settings);
+        config.save(settings);
         if(changedHost) {
-          background.window.reauth();
+          auth.initiate();
         }else if(changedIdentifier) {
-          background.window.getTokenRequest();
+          sockets.getTokenRequest();
         }
         window.close();
       }
@@ -116,46 +199,21 @@
   </head>
   <body onLoad="window.setTimeout(bodyLoad(), 100);">
     <div id="header">
-      <a href="http://help.2cloudproject.com">Get Help</a>
-    </div>
-    
-    <div id="menubar">
-      <b>The 2cloud Project</b>
-      <ul>
-        <li><a href="#" id="setup-link">Setup Guide</a></li>
-        <li><a href="#" id="settings-link">Settings</a></li>
-        <li><a href="http://www.android2cloud.org">Project Home</a></li>
-        <li><a href="http://groups.google.com/group/2cloud">Mailing list</a></li>
-        <li><a href="http://groups.google.com/group/2cloud-announce">Announcement Email List</a></li>
-        <li><a href="http://links.2cloudproject.com/beta">Beta information</a></li>
-        <li><a href="http://www.twitter.com/2cloudproject">Twitter</a></li>
-        <li><a href="http://blog.android2cloud.org">Blog</a></li>
-        <li><a href="http://www.github.com/2cloud">GitHub</a></li>
-        <li><a href="http://links.android2cloud.org/donate">Donations</a></li>
-        <li>Sponsors
-          <ul>
-            <li><a href="http://www.wonderproxy.com">WonderProxy</a></li>
-            <li><a href="http://www.sitespect.com">SiteSpect</a></li>
-            <li><a href="http://www.eternityonline.org.uk">Eternity Online</a></li>
-          </ul>
-        </li>
-      </ul>
+      <a href="http://help.2cloudproject.com" id="helpLink" class="continuebutton">Help</a>
     </div>
     
     <div id="content">
-      <div id="progress">
-        <div id="progressCount">2cloud Settings</div>
+      <div id="title">
+        2cloud Settings
       </div>
       <div id="instructions">
         <div id="instructionText">
-          <p>Host: <input type="text" id="a2c_config.host" /></p>
-          <p>Key: <input type="text" id="a2c_config.key" /></p>
-          <p>Secret: <input type="text" id="a2c_config.secret" /></p>
-          <p>Callback: <input type="text" id="a2c_config.callback" /></p>
-          <p>Device Name: <input type="text" id="a2c_config.identifier" /></p>
-          <p>Give Focus to New Tabs: <input type="checkbox" id="a2c_config.giveFocus" /></p>
-          <p>Mute Alerts: <input type="checkbox" id="a2c_config.mute" /></p>
-          <p><button onClick="save();">Save</button></p>
+          <input type="url" id="a2c_config.host" class="textarea" placeholder="Host"/><label for="a2c_config.host">Host</label><br />
+          <input type="text" id="a2c_config.key" class="textarea" placeholder="Key"/><label for="a2c_config.key">Key</label><br />
+          <input type="text" id="a2c_config.secret" class="textarea" placeholder="Secret"/><label for="a2c_config.secret">Secret</label><br />
+          <input type="text" id="a2c_config.callback" class="textarea" placeholder="Callback"/><label for="a2c_config.callback">Callback</label><br />
+          <input type="text" id="a2c_config.identifier" class="textarea" placeholder="Device Name"/><label for="a2c_config.identifier">Device</label><br />
+          <p><button onClick="save();" class="continuebutton">Save</button></p>
         </div>
       </div>
     </div>
