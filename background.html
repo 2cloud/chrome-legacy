@@ -24,7 +24,7 @@
     </script>
   </head>
   <body>
-    <script type="text/javascript" src='channel.js'></script>
+    <script type="text/javascript" src='http://2cloudapp.appspot.com/_ah/channel/jsapi'></script>
     <script type="text/javascript">
       if(localStorage['config.setupCompleted'] != "true"){
         config.save(config);
@@ -33,6 +33,8 @@
         tab.selected = true;
         windows.openLink(tab);
       }else{
+        config.load();
+        console.log(config);
         oauth.authorize(sockets.getTokenRequest);
       }
     </script>

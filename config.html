@@ -181,6 +181,7 @@
       	if(callback.charAt(0) == "/")
       	  callback = callback.substring(1);
         settings.host = host;
+        settings.secureHost = settings.host.replace("http://", "https://");
         settings.key = document.getElementById("a2c_config.key").value;
         settings.secret = document.getElementById("a2c_config.secret").value;
         settings.callback = callback;
@@ -188,6 +189,7 @@
         var changedIdentifier = (settings.identifier != config.identifier);
         var changedHost = (settings.host != config.host);
         config.save(settings);
+        chrome.extension.getBackgroundPage().config.load();
         if(changedHost) {
           auth.initiate();
         }else if(changedIdentifier) {

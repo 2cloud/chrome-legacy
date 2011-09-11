@@ -3,6 +3,7 @@ var channel = {};
 
 sockets.getTokenRequest = function() {
   windows.connecting();
+  config.load();
   var pastFrame = chrome.extension.getBackgroundPage().document.getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
@@ -48,6 +49,8 @@ sockets.onOpen = function() {
 }
 
 sockets.onMessage = function(evt) {
+  if(config.debug)
+    console.log(evt)
   var message = JSON.parse(evt.data);
   if(config.debug)
     console.log(message);
@@ -75,6 +78,7 @@ sockets.onMessage = function(evt) {
 }
 
 sockets.onError = function(error) {
+  console.log(error);
   if(error.code != 401) {
     channel.error = "Error " + error.code +": ";
     channel.error += error.description;
