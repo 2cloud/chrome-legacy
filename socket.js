@@ -15,7 +15,13 @@ sockets.getTokenRequest = function() {
 sockets.getTokenResult = function(resp, xhr) {
   channel = {};
   console.log(resp);
-  result = JSON.parse(resp);
+  try {
+    result = JSON.parse(resp);
+  } catch(err) {
+    result = {};
+    result.code = 600;
+    result.err = err;
+  }
   if(result.code === 200 || result.code === 304) {
     //handle a successful retrieval of a token
     //200 means a token was created
@@ -28,6 +34,9 @@ sockets.getTokenResult = function(resp, xhr) {
     sockets.connect();
   } else if(result.code === 503) {
     windows.overQuota();
+  } else {
+    channel.error = "Error " + result.code +": ";
+    channel.error += JSON.stringify(result.err);
   }
 }
 
