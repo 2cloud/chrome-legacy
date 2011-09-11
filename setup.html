@@ -153,6 +153,7 @@
       var curPage = 0;
       function updateContent(page){
         curPage = page;
+        console.log(curPage);
         if(curPage != 1 && curPage != 2 && curPage != 3)
           document.getElementById("continue").style.display = "";
         else
