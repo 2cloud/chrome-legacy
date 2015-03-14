@@ -5,38 +5,10 @@
     <script type="text/javascript" src="socket.js"></script>
     <script type="text/javascript" src="chrome_ex_oauthsimple.js"></script>
     <script type="text/javascript" src="chrome_ex_oauth.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script>
-      var oauth = ChromeExOAuth.initBackgroundPage({
-        'request_url': config.secureHost + "_ah/OAuthGetRequestToken",
-        'authorize_url': config.secureHost + "_ah/OAuthAuthorizeToken",
-        'access_url': config.secureHost + "_ah/OAuthGetAccessToken",
-        'consumer_key' : config.key,
-        'consumer_secret' : config.secret,
-        'scope': "",
-        'callback_page' : config.host + config.callback
-      });
-    </script>
-   <script type="text/javascript">
-      chrome.browserAction.onClicked.addListener(function(tab) {
-        windows.browserAction();
-      });
-    </script>
+		<script type="text/javascript" src="config.js"></script>
   </head>
-  <body>
-    <script type="text/javascript" src='http://2cloudapp.appspot.com/_ah/channel/jsapi'></script>
-    <script type="text/javascript">
-      if(localStorage['config.setupCompleted'] != "true"){
-        config.save(config);
-        tab = new Object();
-        tab.url = chrome.extension.getURL("setup.html");
-        tab.selected = true;
-        windows.openLink(tab);
-      }else{
-        config.load();
-        console.log(config);
-        oauth.authorize(sockets.getTokenRequest);
-      }
-    </script>
+	<body>
+		<script type="text/javascript" src="https://talkgadget.google.com/talkgadget/channel.js"></script>
+		<script type="text/javascript" src="background.js"></script>
   </body>
 </html>

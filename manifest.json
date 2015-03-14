@@ -1,26 +1,26 @@
 {
-  "name": "2cloud",
-  "version": "2.1.4",
-  "minimum_chrome_version": "5.0.316.0",
-  "description": "The Chrome extension for the 2cloud Project. Send and receive links from any client supported by the project.",
-  "permissions": [
-    "tabs",
-    "<all_urls>",
-    "*://*/*"
-  ],
-  "browser_action": {
-    "default_icon": "images/icon.png"
-  },
-  "background_page": "background.html",
-  "options_page": "config.html",
-  "homepage_url": "http://links.2cloudproject.com/chrome",
-  "icons": {
-    "16": "images/icon.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
-  },
-  "browser_action": {
-    "default_icon": "images/disconnected.png",
-    "default_title": "Disconnected. Click to connect."
-  }
+   "background": {
+      "page": "background.html"
+   },
+   "browser_action": {
+      "default_icon": "images/disconnected.png",
+      "default_title": "Disconnected. Click to connect."
+   },
+   "content_security_policy": "script-src 'self' https://talkgadget.google.com; object-src 'self'",
+   "description": "The Chrome extension for the 2cloud Project. Send links from Chrome to your Android device.",
+   "homepage_url": "http://links.2cloudproject.com/chrome",
+   "icons": {
+      "128": "images/icon128.png",
+      "16": "images/icon.png",
+      "48": "images/icon48.png"
+   },
+   "manifest_version": 2,
+   "minimum_chrome_version": "5.0.316.0",
+   "name": "2cloud",
+   "options_page": "config.html",
+   "permissions": [ "tabs", "<all_urls>", "*://*/*" ],
+   "version": "2.1.8",
+   "web_accessible_resources": [
+     "chrome_ex_oauth.html"
+   ]
 }

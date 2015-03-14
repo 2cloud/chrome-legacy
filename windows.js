@@ -22,7 +22,6 @@ windows.openLink = function(link) {
 }
 
 windows.serverDown = function() {
-  //TODO: Update UI to reflect the server being down
   channel.connection_status = "error";
   chrome.browserAction.setIcon({'path': 'images/error.png'});
   chrome.browserAction.setPopup({'popup': 'error_popup.html'});
@@ -30,15 +29,16 @@ windows.serverDown = function() {
 }
 
 windows.disconnected = function() {
-  //TODO: update UI to reflect the channel being disconnected
   channel.connection_status = "disconnected";
   chrome.browserAction.setIcon({'path': 'images/disconnected.png'});
   chrome.browserAction.setPopup({'popup': ''});
+  chrome.browserAction.onClicked.addListener(function(tab) {
+    sockets.connect();
+  });
   chrome.browserAction.setTitle({'title': 'Disconnected. Click to connect.'});
 }
 
 windows.overQuota = function() {
-  //TODO: update the UI to reflect the server being over quota
   channel.connection_status = "over_quota";
   chrome.browserAction.setIcon({'path': 'images/error.png'});
   chrome.browserAction.setPopup({'popup': 'quota_popup.html'});
@@ -50,11 +50,9 @@ windows.connecting = function() {
   chrome.browserAction.setIcon({'path': 'images/connecting.png'});
   chrome.browserAction.setPopup({'popup': ''});
   chrome.browserAction.setTitle({'title': 'Connecting to the server...'});
-  //TODO: update the UI to reflect the extension connecting to the server
 }
 
 windows.connected = function() {
-  //TODO: update the UI to reflect the extension being connected to the server
   channel.connection_status = "connected";
   chrome.browserAction.setPopup({'popup': ''});
   chrome.browserAction.onClicked.addListener(function(tab) {

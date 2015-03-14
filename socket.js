@@ -3,13 +3,13 @@ var channel = {};
 
 sockets.getTokenRequest = function() {
   windows.connecting();
+  console.log("connecting for token...");
   config.load();
   var pastFrame = chrome.extension.getBackgroundPage().document.getElementById('wcs-iframe');
   if(pastFrame)
     pastFrame.parentNode.removeChild(pastFrame);
   auth.request(config.host + 'channels/get/' + config.identifier, sockets.getTokenResult, sockets.getTokenResult);
   console.log("Sent token request");
-  //TODO: Check to make sure the quota isn't depleted before requesting a new token
 }
 
 sockets.getTokenResult = function(resp, xhr) {
